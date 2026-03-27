@@ -165,8 +165,14 @@ def emotion_postprocess(probs, class_names):
     pred_name = class_names[pred_idx]
 
     if pred_name == "disgust" and "sad" in class_names:
-        pred_idx = class_names.index("sad")
-        pred_conf = float(probs[pred_idx])
+        disgust_conf = float(probs[class_names.index("disgust")])
+
+        # если disgust реально сильный — оставляем
+        if disgust_conf > 0.85:
+            pass
+        else:
+            pred_idx = class_names.index("sad")
+            pred_conf = float(probs[pred_idx])
 
     return pred_idx, pred_conf
 
